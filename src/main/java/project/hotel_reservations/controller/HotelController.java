@@ -1,0 +1,95 @@
+package project.hotel_reservations.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import project.hotel_reservations.dto.HotelCreateDTO;
+import project.hotel_reservations.dto.HotelResponseDTO;
+import project.hotel_reservations.dto.HotelUpdateDTO;
+import project.hotel_reservations.service.HotelService;
+
+import java.util.List;
+import java.util.UUID;
+
+@Tag(name = "Hotels")
+@RestController
+@RequestMapping("/hotels")
+@RequiredArgsConstructor
+public class HotelController {
+
+    private final HotelService service;
+
+    @Operation(summary = "Create a hotel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Hotel created successfully"),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid input data",
+                    content = @Content(schema = @Schema(hidden = true))
+            )
+    })
+    @PostMapping
+    public ResponseEntity<HotelResponseDTO> create(@Valid @RequestBody HotelCreateDTO req) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(req));
+    }
+
+    @Operation(summary = "Get a list of all hotels")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of hotels returned successfully")
+    })
+    @GetMapping
+    public ResponseEntity<List<HotelResponseDTO>> findAll() {
+        return ResponseEntity.ok(service.findAll());
+    }
+
+    @Operation(summary = "Get a hotel by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Hotel found"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Hotel not found",
+                    content = @Content(schema = @Schema(hidden = true))
+            )
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<HotelResponseDTO> findById(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.findById(id));
+    }
+
+    @Operation(summary = "Update a hotel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Hotel updated successfully"),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid input data",
+                    content = @Content(schema = @Schema(hidden = true))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Hotel not found",
+                    content = @Content(schema = @Schema(hidden = true))
+            )
+    })
+    @PatchMapping("/{id}")
+    public ResponseEntity<HotelResponseDTO> update(@PathVariable UUID id, @Valid @RequestBody HotelUpdateDTO req) {
+        return ResponseEntity.ok(service.update(id, req));
+    }
+
+    @Operation(summary = "Delete a hotel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Hotel deleted successfully"),
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
