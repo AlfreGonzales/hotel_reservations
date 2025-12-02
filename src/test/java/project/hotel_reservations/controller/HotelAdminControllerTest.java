@@ -44,13 +44,22 @@ public class HotelAdminControllerTest {
     @Test
     @DisplayName("Create hotel admin")
     void shouldCreateHotelAdmin() throws Exception {
-        HotelAdminCreateDTO req = new HotelAdminCreateDTO(
-                "123", "Juan", "juan@gmail.com", "Supervisor", "tarde"
-        );
+        HotelAdminCreateDTO req = HotelAdminCreateDTO.builder()
+                .identification("111")
+                .name("Juan")
+                .email("juan@gmail.com")
+                .position("Supervisor")
+                .shift("tarde")
+                .build();
 
-        HotelAdminResponseDTO dto = new HotelAdminResponseDTO(
-                id, "123", "Juan", "juan@gmail.com", "Supervisor", "tarde", null, null
-        );
+        HotelAdminResponseDTO dto = HotelAdminResponseDTO.builder()
+                .id(id)
+                .identification("111")
+                .name("Juan")
+                .email("juan@gmail.com")
+                .position("Supervisor")
+                .shift("tarde")
+                .build();
 
         when(service.create(any(HotelAdminCreateDTO.class))).thenReturn(dto);
 
@@ -60,35 +69,37 @@ public class HotelAdminControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(id.toString()))
                 .andExpect(jsonPath("$.name").value("Juan"))
-                .andExpect(jsonPath("$.email").value("juan@gmail.com"));
+                .andExpect(jsonPath("$.position").value("Supervisor"));
     }
 
     @Test
     @DisplayName("Return list of hotel admins")
     void shouldReturnHotelAdminsList() throws Exception {
-        HotelAdminResponseDTO dto = new HotelAdminResponseDTO(
-                id, null, "Juan", null, null, null, null, null
-        );
+        HotelAdminResponseDTO dto = HotelAdminResponseDTO.builder()
+                .name("Usuario")
+                .build();
 
         when(service.findAll()).thenReturn(List.of(dto));
 
         mockMvc.perform(get("/hotel-admins"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Juan"));
+                .andExpect(jsonPath("$[0].name").value("Usuario"));
     }
 
     @Test
     @DisplayName("Find hotel admin by ID")
     void shouldFindHotelAdminById() throws Exception {
-        HotelAdminResponseDTO dto = new HotelAdminResponseDTO(
-                id, null, "Juan", null, null, null, null, null
-        );
+        HotelAdminResponseDTO dto = HotelAdminResponseDTO.builder()
+                .name("Usuario")
+                .position("Gerente")
+                .build();
 
         when(service.findById(id)).thenReturn(dto);
 
         mockMvc.perform(get("/hotel-admins/" + id))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Juan"));
+                .andExpect(jsonPath("$.name").value("Usuario"))
+                .andExpect(jsonPath("$.position").value("Gerente"));
     }
 
     @Test
@@ -103,13 +114,22 @@ public class HotelAdminControllerTest {
     @Test
     @DisplayName("Update hotel admin")
     void shouldUpdateHotelAdmin() throws Exception {
-        HotelAdminUpdateDTO req = new HotelAdminUpdateDTO(
-                "321", "Nuevo Nombre", "nuevo@gmail.com", "Director", "tarde"
-        );
+        HotelAdminUpdateDTO req = HotelAdminUpdateDTO.builder()
+                .identification("321")
+                .name("Nuevo Nombre")
+                .email("nuevo@gmail.com")
+                .position("Director")
+                .shift("noche")
+                .build();
 
-        HotelAdminResponseDTO dto = new HotelAdminResponseDTO(
-                id, "321", "Nuevo Nombre", "nuevo@gmail.com", "Director", "tarde", null, null
-        );
+        HotelAdminResponseDTO dto = HotelAdminResponseDTO.builder()
+                .id(id)
+                .identification("321")
+                .name("Nuevo Nombre")
+                .email("nuevo@gmail.com")
+                .position("Director")
+                .shift("noche")
+                .build();
 
         when(service.update(eq(id), any(HotelAdminUpdateDTO.class))).thenReturn(dto);
 
@@ -118,7 +138,7 @@ public class HotelAdminControllerTest {
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Nuevo Nombre"))
-                .andExpect(jsonPath("$.email").value("nuevo@gmail.com"));
+                .andExpect(jsonPath("$.shift").value("noche"));
     }
 
     @Test
