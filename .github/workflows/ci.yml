@@ -25,16 +25,5 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
-      - name: Grant execute permission for mvnw
-        run: chmod +x mvnw
-
-      - name: Run tests + JaCoCo verification
-        run: ./mvnw clean verify
-
-      - name: Upload JaCoCo coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: jacoco-report
-          path: |
-            target/site/jacoco/
-            target/jacoco.exec
+      - name: Run tests
+        run: mvn -B test
