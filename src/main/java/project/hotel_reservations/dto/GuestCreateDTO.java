@@ -3,10 +3,12 @@ package project.hotel_reservations.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import project.hotel_reservations.validation.annotation.ValidAdult;
 
 import java.time.LocalDate;
 
+@Builder
 public record GuestCreateDTO(
         @NotBlank(message = "Identification must not be empty")
         String identification,

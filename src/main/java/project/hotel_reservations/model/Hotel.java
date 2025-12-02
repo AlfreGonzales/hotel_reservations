@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "hotels")
 @Getter
 @Setter
 @NoArgsConstructor
