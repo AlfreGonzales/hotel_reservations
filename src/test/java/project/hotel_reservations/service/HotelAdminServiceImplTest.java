@@ -62,21 +62,31 @@ public class HotelAdminServiceImplTest {
     @Test
     @DisplayName("Create hotel admin successfully")
     void shouldCreateHotelAdmin() {
-        HotelAdminCreateDTO req = new HotelAdminCreateDTO(
-                "123", "Juan", "juan@gmail.com", "Supervisor", "tarde"
-        );
+        HotelAdminCreateDTO req = HotelAdminCreateDTO.builder()
+                .identification("111")
+                .name("Juan")
+                .email("juan@gmail.com")
+                .position("Supervisor")
+                .shift("tarde")
+                .build();
 
-        HotelAdminResponseDTO dto = new HotelAdminResponseDTO(
-                id, "123", "Juan", "juan@mail.com", "Supervisor", "tarde", null, null
-        );
+        HotelAdminResponseDTO dto = HotelAdminResponseDTO.builder()
+                .id(id)
+                .identification("111")
+                .name("Juan")
+                .email("juan@gmail.com")
+                .position("Supervisor")
+                .shift("tarde")
+                .build();
 
         when(repository.save(any(HotelAdmin.class))).thenReturn(hotelAdmin);
         when(mapper.toDto(hotelAdmin)).thenReturn(dto);
 
         HotelAdminResponseDTO result = service.create(req);
 
+        assertEquals(dto.id(), result.id());
         assertEquals(dto.name(), result.name());
-        assertEquals(dto.email(), result.email());
+        assertEquals(dto.position(), result.position());
 
         verify(repository).save(any(HotelAdmin.class));
         verify(mapper).toDto(hotelAdmin);
@@ -86,9 +96,7 @@ public class HotelAdminServiceImplTest {
     @DisplayName("List all hotel admins")
     void shouldReturnListOfHotelAdmins() {
         when(repository.findAll()).thenReturn(List.of(hotelAdmin));
-        when(mapper.toDto(hotelAdmin)).thenReturn(
-                new HotelAdminResponseDTO(null, null, null, null, null, null, null, null)
-        );
+        when(mapper.toDto(hotelAdmin)).thenReturn(HotelAdminResponseDTO.builder().build());
 
         List<HotelAdminResponseDTO> result = service.findAll();
 
@@ -99,15 +107,18 @@ public class HotelAdminServiceImplTest {
     @Test
     @DisplayName("Find hotel admin by ID successfully")
     void shouldFindById() {
-        HotelAdminResponseDTO dto = new HotelAdminResponseDTO(id, "123", null, null, null, null, null, null);
+        HotelAdminResponseDTO dto = HotelAdminResponseDTO.builder()
+                .name("Usuario")
+                .position("Gerente")
+                .build();
 
         when(repository.findById(id)).thenReturn(Optional.of(hotelAdmin));
         when(mapper.toDto(hotelAdmin)).thenReturn(dto);
 
         HotelAdminResponseDTO result = service.findById(id);
 
-        assertEquals(id, result.id());
-        assertEquals("123", result.identification());
+        assertEquals("Usuario", result.name());
+        assertEquals("Gerente", result.position());
     }
 
     @Test
@@ -121,9 +132,13 @@ public class HotelAdminServiceImplTest {
     @Test
     @DisplayName("Update hotel admin successfully")
     void shouldUpdateHotelAdmin() {
-        HotelAdminUpdateDTO req = new HotelAdminUpdateDTO(
-                "321", "Nuevo Nombre", "nuevo@gmail.com", "Director", "tarde"
-        );
+        HotelAdminUpdateDTO req = HotelAdminUpdateDTO.builder()
+                .identification("321")
+                .name("Nuevo Nombre")
+                .email("nuevo@gmail.com")
+                .position("Director")
+                .shift("noche")
+                .build();
 
         HotelAdmin updated = HotelAdmin.builder()
                 .id(id)
@@ -131,12 +146,17 @@ public class HotelAdminServiceImplTest {
                 .name("Nuevo Nombre")
                 .email("nuevo@gmail.com")
                 .position("Director")
-                .shift("tarde")
+                .shift("noche")
                 .build();
 
-        HotelAdminResponseDTO dto = new HotelAdminResponseDTO(
-                id, "321", "Nuevo Nombre", "nuevo@gmail.com", "Director", "tarde", null, null
-        );
+        HotelAdminResponseDTO dto = HotelAdminResponseDTO.builder()
+                .id(id)
+                .identification("321")
+                .name("Nuevo Nombre")
+                .email("nuevo@gmail.com")
+                .position("Director")
+                .shift("noche")
+                .build();
 
         when(repository.findById(id)).thenReturn(Optional.of(hotelAdmin));
         doAnswer(inv -> {
@@ -157,6 +177,7 @@ public class HotelAdminServiceImplTest {
         HotelAdminResponseDTO result = service.update(id, req);
 
         assertEquals("Nuevo Nombre", result.name());
+        assertEquals("noche", result.shift());
         verify(repository).save(hotelAdmin);
     }
 
@@ -165,7 +186,7 @@ public class HotelAdminServiceImplTest {
     void shouldThrowWhenUpdateNotFound() {
         when(repository.findById(id)).thenReturn(Optional.empty());
 
-        HotelAdminUpdateDTO req = new HotelAdminUpdateDTO(null, null, null, null, null);
+        HotelAdminUpdateDTO req = HotelAdminUpdateDTO.builder().build();
 
         assertThrows(EntityNotFoundException.class, () -> service.update(id, req));
     }
