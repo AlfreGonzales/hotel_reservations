@@ -8,8 +8,10 @@ import project.hotel_reservations.dto.HotelAdminCreateDTO;
 import project.hotel_reservations.dto.HotelAdminResponseDTO;
 import project.hotel_reservations.dto.HotelAdminUpdateDTO;
 import project.hotel_reservations.mapper.HotelAdminMapper;
+import project.hotel_reservations.model.Hotel;
 import project.hotel_reservations.model.HotelAdmin;
 import project.hotel_reservations.repository.HotelAdminRepository;
+import project.hotel_reservations.repository.HotelRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +21,7 @@ import java.util.UUID;
 public class HotelAdminServiceImpl implements HotelAdminService {
 
     private final HotelAdminRepository repository;
+    private final HotelRepository hotelRepository;
     private final HotelAdminMapper mapper;
 
     /**
@@ -83,6 +86,13 @@ public class HotelAdminServiceImpl implements HotelAdminService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         mapper.toEntity(req, entity);
+
+        if (req.hotelId() != null) {
+            Hotel hotel = hotelRepository.findById(req.hotelId())
+                    .orElseThrow(() -> new EntityNotFoundException("Hotel not found"));
+
+            entity.setHotel(hotel);
+        }
 
         return mapper.toDto(repository.save(entity));
     }

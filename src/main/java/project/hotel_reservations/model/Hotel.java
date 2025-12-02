@@ -1,11 +1,10 @@
 package project.hotel_reservations.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -30,4 +29,7 @@ public class Hotel {
     private String phone;
 
     private String email;
+
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY)
+    private List<HotelAdmin> hotelAdmins = new ArrayList<>();
 }
