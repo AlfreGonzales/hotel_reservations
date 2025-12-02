@@ -10,6 +10,7 @@ public record HotelAdminResponseDTO(
         String email,
         String position,
         String shift,
+        UUID hotelId,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {

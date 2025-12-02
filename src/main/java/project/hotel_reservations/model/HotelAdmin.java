@@ -1,7 +1,6 @@
 package project.hotel_reservations.model;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -17,4 +16,8 @@ public class HotelAdmin extends User {
     private String position;
 
     private String shift;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
 }
