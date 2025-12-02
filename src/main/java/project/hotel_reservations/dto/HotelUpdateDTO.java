@@ -3,9 +3,7 @@ package project.hotel_reservations.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
 
-@Builder
 public record HotelUpdateDTO(
         @Size(min = 1, message = "Name must not be empty")
         String name,

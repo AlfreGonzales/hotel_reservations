@@ -1,10 +1,7 @@
 package project.hotel_reservations.dto;
 
-import lombok.Builder;
-
 import java.util.UUID;
 
-@Builder
 public record HotelResponseDTO(
         UUID id,
         String name,
