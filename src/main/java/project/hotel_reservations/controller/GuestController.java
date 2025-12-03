@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import project.hotel_reservations.dto.GuestCreateDTO;
 import project.hotel_reservations.dto.GuestResponseDTO;
@@ -46,6 +47,7 @@ public class GuestController {
             @ApiResponse(responseCode = "200", description = "List of guests returned successfully")
     })
     @GetMapping
+    @PreAuthorize("hasRole('guest')")
     public ResponseEntity<List<GuestResponseDTO>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
