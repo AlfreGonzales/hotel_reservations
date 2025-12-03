@@ -25,5 +25,8 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
+      - name: Grant execute permission for mvnw
+        run: chmod +x mvnw
+
       - name: Run tests
         run: ./mvnw clean verify
