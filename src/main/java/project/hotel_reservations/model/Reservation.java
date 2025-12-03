@@ -40,4 +40,7 @@ public class Reservation {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "guest_id", nullable = false)
     private Guest guest;
+
+    @OneToOne(mappedBy = "reservation", fetch = FetchType.EAGER)
+    private Payment payment;
 }
