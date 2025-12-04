@@ -12,6 +12,7 @@ public record ReservationResponseDTO(
         LocalDate checkOutDate,
         Integer peopleCount,
         String status,
+        PaymentResponseDTO payment,
         UUID roomId,
         UUID guestId
 ) {

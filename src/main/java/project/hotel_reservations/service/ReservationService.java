@@ -1,5 +1,6 @@
 package project.hotel_reservations.service;
 
+import project.hotel_reservations.dto.PayReservationDTO;
 import project.hotel_reservations.dto.ReservationCreateDTO;
 import project.hotel_reservations.dto.ReservationResponseDTO;
 
@@ -13,4 +14,6 @@ public interface ReservationService {
     List<ReservationResponseDTO> findAll();
 
     ReservationResponseDTO findById(UUID id);
+
+    ReservationResponseDTO confirmReservation(UUID id, PayReservationDTO req);
 }
