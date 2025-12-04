@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.hotel_reservations.dto.PayReservationDTO;
 import project.hotel_reservations.dto.ReservationCreateDTO;
 import project.hotel_reservations.dto.ReservationResponseDTO;
 import project.hotel_reservations.service.ReservationService;
@@ -61,5 +62,24 @@ public class ReservationController {
     @GetMapping("/{id}")
     public ResponseEntity<ReservationResponseDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));
+    }
+
+    @Operation(summary = "Confirm a reservation")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reservation confirmed successfully"),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid input data",
+                    content = @Content(schema = @Schema(hidden = true))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Reservation not found",
+                    content = @Content(schema = @Schema(hidden = true))
+            )
+    })
+    @PatchMapping("/{id}/confirm")
+    public ResponseEntity<ReservationResponseDTO> confirmReservation(@PathVariable UUID id, @Valid @RequestBody PayReservationDTO req) {
+        return ResponseEntity.ok(service.confirmReservation(id, req));
     }
 }

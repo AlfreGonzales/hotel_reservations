@@ -4,12 +4,12 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.hotel_reservations.dto.PayReservationDTO;
+import project.hotel_reservations.dto.PaymentCreateDTO;
 import project.hotel_reservations.dto.ReservationCreateDTO;
 import project.hotel_reservations.dto.ReservationResponseDTO;
 import project.hotel_reservations.mapper.ReservationMapper;
-import project.hotel_reservations.model.Guest;
-import project.hotel_reservations.model.Reservation;
-import project.hotel_reservations.model.Room;
+import project.hotel_reservations.model.*;
 import project.hotel_reservations.repository.GuestRepository;
 import project.hotel_reservations.repository.ReservationRepository;
 import project.hotel_reservations.repository.RoomRepository;
@@ -25,6 +25,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final RoomRepository roomRepository;
     private final GuestRepository guestRepository;
     private final ReservationMapper mapper;
+    private final PaymentService paymentService;
 
     /**
      * Creates a new reservation
@@ -77,5 +78,34 @@ public class ReservationServiceImpl implements ReservationService {
         return repository.findById(id)
                 .map(mapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
+    }
+
+    /**
+     * Confirm a reservation
+     *
+     * @param id reservation ID
+     * @param req DTO with payment data
+     * @return DTO of the confirmed reservation
+     * @throws EntityNotFoundException if reservation not found
+     */
+    @Override
+    @Transactional
+    public ReservationResponseDTO confirmReservation(UUID id, PayReservationDTO req) {
+        Reservation entity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
+
+        PaymentCreateDTO paymentCreateDTO = PaymentCreateDTO.builder()
+                .totalAmount(req.totalAmount())
+                .paymentMethod(req.paymentMethod())
+                .reservation(entity)
+                .paymentPlatformId(req.paymentPlatformId())
+                .build();
+
+        Payment payment = paymentService.processPayment(paymentCreateDTO);
+
+        entity.setPayment(payment);
+        entity.setStatus(ReservationStatus.CONFIRMED);
+
+        return mapper.toDto(repository.save(entity));
     }
 }

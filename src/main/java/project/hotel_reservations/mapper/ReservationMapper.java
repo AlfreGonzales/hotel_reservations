@@ -11,5 +11,6 @@ public interface ReservationMapper {
 
     @Mapping(source = "room.id", target = "roomId")
     @Mapping(source = "guest.id", target = "guestId")
+    @Mapping(source = "payment.paymentPlatform.id", target = "payment.paymentPlatformId")
     ReservationResponseDTO toDto(Reservation entity);
 }
