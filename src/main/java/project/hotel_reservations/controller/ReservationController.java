@@ -82,4 +82,18 @@ public class ReservationController {
     public ResponseEntity<ReservationResponseDTO> confirmReservation(@PathVariable UUID id, @Valid @RequestBody PayReservationDTO req) {
         return ResponseEntity.ok(service.confirmReservation(id, req));
     }
+
+    @Operation(summary = "Cancel a reservation")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reservation cancelled successfully"),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Reservation not found",
+                    content = @Content(schema = @Schema(hidden = true))
+            )
+    })
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<ReservationResponseDTO> cancelReservation(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.cancelReservation(id));
+    }
 }
