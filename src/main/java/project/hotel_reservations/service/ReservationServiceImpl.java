@@ -94,6 +94,8 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation entity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
 
+        entity.getState().confirm(entity);
+
         PaymentCreateDTO paymentCreateDTO = PaymentCreateDTO.builder()
                 .totalAmount(req.totalAmount())
                 .paymentMethod(req.paymentMethod())
@@ -104,7 +106,24 @@ public class ReservationServiceImpl implements ReservationService {
         Payment payment = paymentService.processPayment(paymentCreateDTO);
 
         entity.setPayment(payment);
-        entity.setStatus(ReservationStatus.CONFIRMED);
+
+        return mapper.toDto(repository.save(entity));
+    }
+
+    /**
+     * Cancel a reservation
+     *
+     * @param id reservation ID
+     * @return DTO of the canceled reservation
+     * @throws EntityNotFoundException if reservation not found
+     */
+    @Override
+    @Transactional
+    public ReservationResponseDTO cancelReservation(UUID id) {
+        Reservation entity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
+
+        entity.getState().cancel(entity);
 
         return mapper.toDto(repository.save(entity));
     }
