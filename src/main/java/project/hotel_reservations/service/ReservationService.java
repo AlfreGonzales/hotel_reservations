@@ -16,4 +16,6 @@ public interface ReservationService {
     ReservationResponseDTO findById(UUID id);
 
     ReservationResponseDTO confirmReservation(UUID id, PayReservationDTO req);
+
+    ReservationResponseDTO cancelReservation(UUID id);
 }
