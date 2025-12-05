@@ -172,6 +172,8 @@ public class GuestServiceImplTest {
     @Test
     @DisplayName("Delete guest successfully")
     void shouldDeleteGuest() {
+        when(repository.existsById(id)).thenReturn(true);
+
         doNothing().when(repository).deleteById(id);
 
         service.delete(id);

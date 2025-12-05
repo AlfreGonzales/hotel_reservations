@@ -1,6 +1,7 @@
 package project.hotel_reservations.dto;
 
 import lombok.Builder;
+import project.hotel_reservations.model.ReservationStatus;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -11,7 +12,7 @@ public record ReservationResponseDTO(
         LocalDate checkInDate,
         LocalDate checkOutDate,
         Integer peopleCount,
-        String status,
+        ReservationStatus status,
         PaymentResponseDTO payment,
         UUID roomId,
         UUID guestId

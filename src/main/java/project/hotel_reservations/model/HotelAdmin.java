@@ -15,7 +15,8 @@ public class HotelAdmin extends User {
 
     private String position;
 
-    private String shift;
+    @Enumerated(EnumType.STRING)
+    private HotelAdminShift shift;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id")
