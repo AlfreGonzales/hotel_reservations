@@ -105,6 +105,10 @@ public class HotelAdminServiceImpl implements HotelAdminService {
     @Override
     @Transactional
     public void delete(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("User not found");
+        }
+
         repository.deleteById(id);
     }
 }
