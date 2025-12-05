@@ -2,11 +2,13 @@ package project.hotel_reservations.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "payment_platforms")
+@SQLRestriction("active = true")
 @Getter
 @Setter
 @NoArgsConstructor
