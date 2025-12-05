@@ -11,9 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.hotel_reservations.dto.PayReservationDTO;
-import project.hotel_reservations.dto.ReservationCreateDTO;
-import project.hotel_reservations.dto.ReservationResponseDTO;
+import project.hotel_reservations.dto.reservation.PayReservationDTO;
+import project.hotel_reservations.dto.reservation.ReservationCreateDTO;
+import project.hotel_reservations.dto.reservation.ReservationResponseDTO;
 import project.hotel_reservations.service.ReservationService;
 
 import java.util.List;

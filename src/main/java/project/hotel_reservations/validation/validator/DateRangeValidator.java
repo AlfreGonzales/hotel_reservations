@@ -2,7 +2,7 @@ package project.hotel_reservations.validation.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import project.hotel_reservations.dto.ReservationCreateDTO;
+import project.hotel_reservations.dto.reservation.ReservationCreateDTO;
 import project.hotel_reservations.validation.annotation.ValidDateRange;
 
 public class DateRangeValidator implements ConstraintValidator<ValidDateRange, ReservationCreateDTO> {

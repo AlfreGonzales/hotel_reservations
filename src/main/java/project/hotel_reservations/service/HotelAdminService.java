@@ -1,8 +1,8 @@
 package project.hotel_reservations.service;
 
-import project.hotel_reservations.dto.HotelAdminCreateDTO;
-import project.hotel_reservations.dto.HotelAdminResponseDTO;
-import project.hotel_reservations.dto.HotelAdminUpdateDTO;
+import project.hotel_reservations.dto.hotel_admin.HotelAdminCreateDTO;
+import project.hotel_reservations.dto.hotel_admin.HotelAdminResponseDTO;
+import project.hotel_reservations.dto.hotel_admin.HotelAdminUpdateDTO;
 
 import java.util.List;
 import java.util.UUID;

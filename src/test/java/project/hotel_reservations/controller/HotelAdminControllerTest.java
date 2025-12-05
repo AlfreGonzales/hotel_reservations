@@ -11,9 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import project.hotel_reservations.dto.HotelAdminCreateDTO;
-import project.hotel_reservations.dto.HotelAdminResponseDTO;
-import project.hotel_reservations.dto.HotelAdminUpdateDTO;
+import project.hotel_reservations.dto.hotel_admin.HotelAdminCreateDTO;
+import project.hotel_reservations.dto.hotel_admin.HotelAdminResponseDTO;
+import project.hotel_reservations.dto.hotel_admin.HotelAdminUpdateDTO;
 import project.hotel_reservations.model.HotelAdminShift;
 import project.hotel_reservations.service.HotelAdminService;
 
