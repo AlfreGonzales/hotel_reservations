@@ -92,6 +92,10 @@ public class PaymentPlatformServiceImpl implements PaymentPlatformService {
     @Override
     @Transactional
     public void delete(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("Payment platform not found");
+        }
+
         repository.deleteById(id);
     }
 }

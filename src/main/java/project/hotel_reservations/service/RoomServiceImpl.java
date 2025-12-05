@@ -101,6 +101,10 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public void softDelete(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("Room not found");
+        }
+
         repository.deleteById(id);
     }
 
