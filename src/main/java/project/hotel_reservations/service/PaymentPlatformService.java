@@ -1,8 +1,8 @@
 package project.hotel_reservations.service;
 
-import project.hotel_reservations.dto.PaymentPlatformCreateDTO;
-import project.hotel_reservations.dto.PaymentPlatformResponseDTO;
-import project.hotel_reservations.dto.PaymentPlatformUpdateDTO;
+import project.hotel_reservations.dto.payment_platform.PaymentPlatformCreateDTO;
+import project.hotel_reservations.dto.payment_platform.PaymentPlatformResponseDTO;
+import project.hotel_reservations.dto.payment_platform.PaymentPlatformUpdateDTO;
 
 import java.util.List;
 import java.util.UUID;

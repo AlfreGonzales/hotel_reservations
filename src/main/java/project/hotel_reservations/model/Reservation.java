@@ -2,8 +2,8 @@ package project.hotel_reservations.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import project.hotel_reservations.reservation.state.ReservationState;
-import project.hotel_reservations.reservation.state.ReservationStateFactory;
+import project.hotel_reservations.state.ReservationState;
+import project.hotel_reservations.state.ReservationStateFactory;
 
 import java.time.LocalDate;
 import java.util.UUID;
