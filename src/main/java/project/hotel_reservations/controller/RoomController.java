@@ -140,4 +140,26 @@ public class RoomController {
     public ResponseEntity<List<RoomResponseDTO>> findAllDeleted() {
         return ResponseEntity.ok(service.findAllDeleted());
     }
+
+    /**
+     * Retrieves a list of all rooms of a specific hotel
+     *
+     * @return ResponseEntity with the list of room DTOs and HTTP status 200
+     */
+    @Operation(summary = "Get a list of all rooms of a specific hotel")
+    @GetMapping("/hotels/{hotelId}")
+    public ResponseEntity<List<RoomResponseDTO>> findByHotelId(@PathVariable UUID hotelId) {
+        return ResponseEntity.ok(service.findByHotelId(hotelId));
+    }
+
+    /**
+     * Retrieves a list of all the available rooms in a hotel
+     *
+     * @return ResponseEntity with the list of room DTOs and HTTP status 200
+     */
+    @Operation(summary = "Get a list of all the available rooms in a hotel")
+    @GetMapping("/hotels/{hotelId}/available")
+    public ResponseEntity<List<RoomResponseDTO>> findAvailableRooms(@PathVariable UUID hotelId) {
+        return ResponseEntity.ok(service.findAvailableRooms(hotelId));
+    }
 }

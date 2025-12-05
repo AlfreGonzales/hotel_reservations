@@ -8,6 +8,7 @@ import project.hotel_reservations.dto.reservation.PayReservationDTO;
 import project.hotel_reservations.dto.payment.PaymentCreateDTO;
 import project.hotel_reservations.dto.reservation.ReservationCreateDTO;
 import project.hotel_reservations.dto.reservation.ReservationResponseDTO;
+import project.hotel_reservations.exception.ReservationNotFoundException;
 import project.hotel_reservations.mapper.ReservationMapper;
 import project.hotel_reservations.model.*;
 import project.hotel_reservations.repository.GuestRepository;
@@ -15,7 +16,9 @@ import project.hotel_reservations.repository.ReservationRepository;
 import project.hotel_reservations.repository.RoomRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -77,7 +80,7 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationResponseDTO findById(UUID id) {
         return repository.findById(id)
                 .map(mapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation not found"));
     }
 
     /**
@@ -92,7 +95,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     public ReservationResponseDTO confirmReservation(UUID id, PayReservationDTO req) {
         Reservation entity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation not found"));
 
         entity.getState().confirm(entity);
 
@@ -121,10 +124,40 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     public ReservationResponseDTO cancelReservation(UUID id) {
         Reservation entity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation not found"));
 
         entity.getState().cancel(entity);
 
         return mapper.toDto(repository.save(entity));
+    }
+
+    /**
+     * Return all reservations by room
+     *
+     * @return List of reservation DTOs
+     */
+    @Override
+    public List<ReservationResponseDTO> findReservationsByRoom(UUID roomId) {
+        if (!roomRepository.existsById(roomId)) {
+            throw new EntityNotFoundException("Room not found");
+        }
+
+        return repository.findReservationsByRoom(roomId)
+                .stream()
+                .map(mapper::toDto)
+                .toList();
+    }
+
+    /**
+     * Return all reservations grouped by payment method
+     *
+     * @return Map of reservation DTOs
+     */
+    @Override
+    public Map<ReservationStatus, List<ReservationResponseDTO>> getReservationsGroupedByPaymentMethod() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toDto)
+                .collect(Collectors.groupingBy(ReservationResponseDTO::status));
     }
 }
