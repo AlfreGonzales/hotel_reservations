@@ -9,7 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import project.hotel_reservations.dto.*;
+import project.hotel_reservations.dto.guest.GuestCreateDTO;
+import project.hotel_reservations.dto.guest.GuestResponseDTO;
+import project.hotel_reservations.dto.guest.GuestUpdateDTO;
 import project.hotel_reservations.mapper.GuestMapper;
 import project.hotel_reservations.model.Guest;
 import project.hotel_reservations.repository.GuestRepository;
@@ -172,6 +174,8 @@ public class GuestServiceImplTest {
     @Test
     @DisplayName("Delete guest successfully")
     void shouldDeleteGuest() {
+        when(repository.existsById(id)).thenReturn(true);
+
         doNothing().when(repository).deleteById(id);
 
         service.delete(id);

@@ -1,6 +1,7 @@
-package project.hotel_reservations.dto;
+package project.hotel_reservations.dto.hotel_admin;
 
 import lombok.Builder;
+import project.hotel_reservations.model.HotelAdminShift;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,7 +13,7 @@ public record HotelAdminResponseDTO(
         String name,
         String email,
         String position,
-        String shift,
+        HotelAdminShift shift,
         UUID hotelId,
         LocalDateTime createdAt,
         LocalDateTime updatedAt

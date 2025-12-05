@@ -4,13 +4,14 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.hotel_reservations.dto.HotelCreateDTO;
-import project.hotel_reservations.dto.HotelResponseDTO;
-import project.hotel_reservations.dto.HotelUpdateDTO;
+import project.hotel_reservations.dto.hotel.HotelCreateDTO;
+import project.hotel_reservations.dto.hotel.HotelResponseDTO;
+import project.hotel_reservations.dto.hotel.HotelUpdateDTO;
 import project.hotel_reservations.mapper.HotelMapper;
 import project.hotel_reservations.model.Hotel;
 import project.hotel_reservations.repository.HotelRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -93,6 +94,27 @@ public class HotelServiceImpl implements HotelService {
     @Override
     @Transactional
     public void delete(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("Hotel not found");
+        }
+
         repository.deleteById(id);
+    }
+
+    /**
+     * Updates the total earning of the hotel
+     *
+     * @param id hotel ID
+     * @return DTO of the total earning
+     * @throws EntityNotFoundException if hotel not found
+     */
+    @Override
+    public BigDecimal getTotalEarningsByHotel(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("Hotel not found");
+        }
+
+        BigDecimal total = repository.getTotalEarningsByHotel(id);
+        return total != null ? total : BigDecimal.ZERO;
     }
 }

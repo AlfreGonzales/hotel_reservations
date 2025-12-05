@@ -12,9 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import project.hotel_reservations.dto.GuestCreateDTO;
-import project.hotel_reservations.dto.GuestResponseDTO;
-import project.hotel_reservations.dto.GuestUpdateDTO;
+import project.hotel_reservations.dto.guest.GuestCreateDTO;
+import project.hotel_reservations.dto.guest.GuestResponseDTO;
+import project.hotel_reservations.dto.guest.GuestUpdateDTO;
+import project.hotel_reservations.security.JwtService;
 import project.hotel_reservations.service.GuestService;
 
 import java.time.LocalDate;
@@ -29,7 +30,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// TODO: remove @AutoConfigureMockMvc(addFilters = false)  and mock jwt
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(GuestController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -37,6 +37,9 @@ public class GuestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private JwtService jwtService;
 
     @MockitoBean
     private GuestService service;

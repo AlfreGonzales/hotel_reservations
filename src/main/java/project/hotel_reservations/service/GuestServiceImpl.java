@@ -4,9 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.hotel_reservations.dto.GuestCreateDTO;
-import project.hotel_reservations.dto.GuestResponseDTO;
-import project.hotel_reservations.dto.GuestUpdateDTO;
+import project.hotel_reservations.dto.guest.GuestCreateDTO;
+import project.hotel_reservations.dto.guest.GuestResponseDTO;
+import project.hotel_reservations.dto.guest.GuestUpdateDTO;
 import project.hotel_reservations.mapper.GuestMapper;
 import project.hotel_reservations.model.Guest;
 import project.hotel_reservations.repository.GuestRepository;
@@ -95,6 +95,10 @@ public class GuestServiceImpl implements GuestService {
     @Override
     @Transactional
     public void delete(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("User not found");
+        }
+
         repository.deleteById(id);
     }
 }

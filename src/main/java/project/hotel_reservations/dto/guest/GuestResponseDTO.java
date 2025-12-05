@@ -1,4 +1,4 @@
-package project.hotel_reservations.dto;
+package project.hotel_reservations.dto.guest;
 
 import lombok.Builder;
 
