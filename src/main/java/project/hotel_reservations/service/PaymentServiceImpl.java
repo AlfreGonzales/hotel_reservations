@@ -4,12 +4,12 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.hotel_reservations.dto.PaymentCreateDTO;
+import project.hotel_reservations.dto.payment.PaymentCreateDTO;
 import project.hotel_reservations.model.Payment;
 import project.hotel_reservations.model.PaymentMethod;
 import project.hotel_reservations.model.PaymentPlatform;
-import project.hotel_reservations.payment.factory.PaymentProcessorFactory;
-import project.hotel_reservations.payment.processor.PaymentProcessor;
+import project.hotel_reservations.factory.PaymentProcessorFactory;
+import project.hotel_reservations.factory.PaymentProcessor;
 import project.hotel_reservations.repository.PaymentPlatformRepository;
 import project.hotel_reservations.repository.PaymentRepository;
 

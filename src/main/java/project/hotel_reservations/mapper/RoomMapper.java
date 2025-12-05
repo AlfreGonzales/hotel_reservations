@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
-import project.hotel_reservations.dto.RoomResponseDTO;
-import project.hotel_reservations.dto.RoomUpdateDTO;
+import project.hotel_reservations.dto.room.RoomResponseDTO;
+import project.hotel_reservations.dto.room.RoomUpdateDTO;
 import project.hotel_reservations.model.Room;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -12,9 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import project.hotel_reservations.dto.HotelCreateDTO;
-import project.hotel_reservations.dto.HotelResponseDTO;
-import project.hotel_reservations.dto.HotelUpdateDTO;
+import project.hotel_reservations.dto.hotel.HotelCreateDTO;
+import project.hotel_reservations.dto.hotel.HotelResponseDTO;
+import project.hotel_reservations.dto.hotel.HotelUpdateDTO;
 import project.hotel_reservations.service.HotelService;
 
 import java.util.List;
