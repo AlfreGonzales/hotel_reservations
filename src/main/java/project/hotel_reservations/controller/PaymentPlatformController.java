@@ -19,6 +19,10 @@ import project.hotel_reservations.service.PaymentPlatformService;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * REST controller for managing payment platforms
+ * Provides endpoints for creating, retrieving, updating, and deleting payment platforms
+ */
 @Tag(name = "Payment platforms")
 @RestController
 @RequestMapping("/payment-platforms")
@@ -27,6 +31,12 @@ public class PaymentPlatformController {
 
     private final PaymentPlatformService service;
 
+    /**
+     * Creates a new payment platform
+     *
+     * @param req DTO containing the payment platform data to create
+     * @return ResponseEntity with the created payment platform DTO and HTTP status 201
+     */
     @Operation(summary = "Create a payment platform")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Payment platform created successfully"),
@@ -41,6 +51,11 @@ public class PaymentPlatformController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(req));
     }
 
+    /**
+     * Retrieves a list of all registered payment platforms
+     *
+     * @return ResponseEntity with the list of payment platform DTOs and HTTP status 200
+     */
     @Operation(summary = "Get a list of all payment platforms")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of payment platforms returned successfully")
@@ -50,6 +65,12 @@ public class PaymentPlatformController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    /**
+     * Retrieves a payment platform by its ID
+     *
+     * @param id UUID of the payment platform to retrieve
+     * @return ResponseEntity with the found payment platform DTO and HTTP status 200
+     */
     @Operation(summary = "Get a payment platform by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Payment platform found"),
@@ -64,6 +85,13 @@ public class PaymentPlatformController {
         return ResponseEntity.ok(service.findById(id));
     }
 
+    /**
+     * Updates an existing payment platform's information
+     *
+     * @param id  UUID of the payment platform to update
+     * @param req DTO containing the updated payment platform data
+     * @return ResponseEntity with the updated payment platform DTO and HTTP status 200
+     */
     @Operation(summary = "Update a payment platform")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Payment platform updated successfully"),
@@ -83,6 +111,12 @@ public class PaymentPlatformController {
         return ResponseEntity.ok(service.update(id, req));
     }
 
+    /**
+     * Deletes a payment platform by its ID
+     *
+     * @param id UUID of the payment platform to delete
+     * @return ResponseEntity with no content and HTTP status 204 if deletion was successful
+     */
     @Operation(summary = "Delete a payment platform")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Payment platform deleted successfully"),

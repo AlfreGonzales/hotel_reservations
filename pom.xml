@@ -122,6 +122,9 @@
 							<version>1.6.3</version>
 						</path>
 					</annotationProcessorPaths>
+					<compilerArgs>
+						<arg>-Xlint:none</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 			<plugin>
