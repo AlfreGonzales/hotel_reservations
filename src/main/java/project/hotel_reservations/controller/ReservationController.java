@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import project.hotel_reservations.dto.reservation.PayReservationDTO;
 import project.hotel_reservations.dto.reservation.ReservationCreateDTO;
 import project.hotel_reservations.dto.reservation.ReservationResponseDTO;
+import project.hotel_reservations.model.ReservationStatus;
 import project.hotel_reservations.service.ReservationService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -129,5 +131,27 @@ public class ReservationController {
     @PatchMapping("/{id}/cancel")
     public ResponseEntity<ReservationResponseDTO> cancelReservation(@PathVariable UUID id) {
         return ResponseEntity.ok(service.cancelReservation(id));
+    }
+
+    /**
+     * Retrieves a list of all reservations by rooms
+     *
+     * @return ResponseEntity with the list of reservation DTOs and HTTP status 200
+     */
+    @Operation(summary = "Get a list of all reservations by rooms")
+    @GetMapping("/rooms/{roomId}")
+    public ResponseEntity<List<ReservationResponseDTO>> findReservationsByRoom(@PathVariable UUID roomId) {
+        return ResponseEntity.ok(service.findReservationsByRoom(roomId));
+    }
+
+    /**
+     * Retrieves a list of all reservations grouped by payment method
+     *
+     * @return ResponseEntity with the list of reservation DTOs and HTTP status 200
+     */
+    @Operation(summary = "Get a list of all reservations grouped by payment method")
+    @GetMapping("/group-method")
+    public ResponseEntity<Map<ReservationStatus, List<ReservationResponseDTO>>> getReservationsGroupedByPaymentMethod() {
+        return ResponseEntity.ok(service.getReservationsGroupedByPaymentMethod());
     }
 }

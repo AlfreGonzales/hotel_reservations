@@ -120,4 +120,38 @@ public class RoomServiceImpl implements RoomService {
                 .map(mapper::toDto)
                 .toList();
     }
+
+    /**
+     * Return all rooms of a specific hotel
+     *
+     * @return List of room DTOs
+     */
+    @Override
+    public List<RoomResponseDTO> findByHotelId(UUID hotelId) {
+        if (!hotelRepository.existsById(hotelId)) {
+            throw new EntityNotFoundException("Hotel not found");
+        }
+
+        return repository.findByHotelId(hotelId)
+                .stream()
+                .map(mapper::toDto)
+                .toList();
+    }
+
+    /**
+     * Return all the available rooms in a hotel
+     *
+     * @return List of room DTOs
+     */
+    @Override
+    public List<RoomResponseDTO> findAvailableRooms(UUID hotelId) {
+        if (!hotelRepository.existsById(hotelId)) {
+            throw new EntityNotFoundException("Hotel not found");
+        }
+
+        return repository.findAvailableRooms(hotelId)
+                .stream()
+                .map(mapper::toDto)
+                .toList();
+    }
 }

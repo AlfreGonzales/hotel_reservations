@@ -20,4 +20,8 @@ public interface RoomService {
     void softDelete(UUID id);
 
     List<RoomResponseDTO> findAllDeleted();
+
+    List<RoomResponseDTO> findByHotelId(UUID hotelId);
+
+    List<RoomResponseDTO> findAvailableRooms(UUID hotelId);
 }

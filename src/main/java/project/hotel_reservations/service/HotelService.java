@@ -4,6 +4,7 @@ import project.hotel_reservations.dto.hotel.HotelCreateDTO;
 import project.hotel_reservations.dto.hotel.HotelResponseDTO;
 import project.hotel_reservations.dto.hotel.HotelUpdateDTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,4 +19,6 @@ public interface HotelService {
     HotelResponseDTO update(UUID id, HotelUpdateDTO req);
 
     void delete(UUID id);
+
+    BigDecimal getTotalEarningsByHotel(UUID id);
 }

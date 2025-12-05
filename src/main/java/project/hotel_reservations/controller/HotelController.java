@@ -17,6 +17,7 @@ import project.hotel_reservations.dto.hotel.HotelResponseDTO;
 import project.hotel_reservations.dto.hotel.HotelUpdateDTO;
 import project.hotel_reservations.service.HotelService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -131,5 +132,18 @@ public class HotelController {
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Retrieves the total earnings of the hotel
+     *
+     * @param id UUID of the hotel
+     * @return ResponseEntity with the total earnings content and HTTP status 200
+     */
+    @Operation(summary = "Total earnings")
+    @GetMapping("/{id}/total-earnings")
+    public ResponseEntity<BigDecimal> getTotalEarnings(@PathVariable UUID id) {
+        BigDecimal totalEarnings = service.getTotalEarningsByHotel(id);
+        return ResponseEntity.ok(totalEarnings);
     }
 }

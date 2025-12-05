@@ -8,6 +8,10 @@ import project.hotel_reservations.state.ReservationStateFactory;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@NamedQuery(
+        name = "Reservation.findReservationsByRoom",
+        query = "SELECT r FROM Reservation r WHERE r.room.id = :roomId"
+)
 @Entity
 @Table(name = "reservations")
 @Getter
