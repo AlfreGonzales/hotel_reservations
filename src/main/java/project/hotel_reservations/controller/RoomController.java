@@ -19,6 +19,10 @@ import project.hotel_reservations.service.RoomService;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * REST controller for managing rooms
+ * Provides endpoints for creating, retrieving, updating, deleting, and retrieving deleted rooms
+ */
 @Tag(name = "Rooms")
 @RestController
 @RequestMapping("/rooms")
@@ -27,6 +31,12 @@ public class RoomController {
 
     private final RoomService service;
 
+    /**
+     * Creates a new room
+     *
+     * @param req DTO containing the room data to create
+     * @return ResponseEntity with the created room DTO and HTTP status 201
+     */
     @Operation(summary = "Create a room")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Room created successfully"),
@@ -41,6 +51,11 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(req));
     }
 
+    /**
+     * Retrieves a list of all rooms
+     *
+     * @return ResponseEntity with the list of room DTOs and HTTP status 200
+     */
     @Operation(summary = "Get a list of all rooms")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of rooms returned successfully")
@@ -50,6 +65,12 @@ public class RoomController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    /**
+     * Retrieves a room by its ID
+     *
+     * @param id UUID of the room to retrieve
+     * @return ResponseEntity with the found room DTO and HTTP status 200
+     */
     @Operation(summary = "Get a room by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Room found"),
@@ -64,6 +85,13 @@ public class RoomController {
         return ResponseEntity.ok(service.findById(id));
     }
 
+    /**
+     * Updates an existing room's information
+     *
+     * @param id  UUID of the room to update
+     * @param req DTO containing the updated room data
+     * @return ResponseEntity with the updated room DTO and HTTP status 200
+     */
     @Operation(summary = "Update a room")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Room updated successfully"),
@@ -83,6 +111,12 @@ public class RoomController {
         return ResponseEntity.ok(service.update(id, req));
     }
 
+    /**
+     * Soft-deletes a room by its ID
+     *
+     * @param id UUID of the room to delete
+     * @return ResponseEntity with no content and HTTP status 204 if deletion was successful
+     */
     @Operation(summary = "Delete a room")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Room deleted successfully"),
@@ -93,6 +127,11 @@ public class RoomController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Retrieves a list of all soft-deleted rooms
+     *
+     * @return ResponseEntity with the list of deleted room DTOs and HTTP status 200
+     */
     @Operation(summary = "Get a list of all deleted rooms")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of rooms returned successfully")

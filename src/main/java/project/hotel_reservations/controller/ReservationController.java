@@ -19,6 +19,10 @@ import project.hotel_reservations.service.ReservationService;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * REST controller for managing reservations
+ * Provides endpoints for creating, retrieving, confirming, and cancelling reservations.
+ */
 @Tag(name = "Reservations")
 @RestController
 @RequestMapping("/reservations")
@@ -27,6 +31,12 @@ public class ReservationController {
 
     private final ReservationService service;
 
+    /**
+     * Creates a new reservation
+     *
+     * @param req DTO containing the reservation data to create
+     * @return ResponseEntity with the created reservation DTO and HTTP status 201
+     */
     @Operation(summary = "Create a reservation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Reservation created successfully"),
@@ -41,6 +51,11 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(req));
     }
 
+    /**
+     * Retrieves a list of all reservations
+     *
+     * @return ResponseEntity with the list of reservation DTOs and HTTP status 200
+     */
     @Operation(summary = "Get a list of all reservations")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of reservations returned successfully")
@@ -50,6 +65,12 @@ public class ReservationController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    /**
+     * Retrieves a reservation by its ID
+     *
+     * @param id UUID of the reservation to retrieve
+     * @return ResponseEntity with the found reservation DTO and HTTP status 200
+     */
     @Operation(summary = "Get a reservation by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Reservation found"),
@@ -64,6 +85,13 @@ public class ReservationController {
         return ResponseEntity.ok(service.findById(id));
     }
 
+    /**
+     * Confirms an existing reservation and processes its payment
+     *
+     * @param id  UUID of the reservation to confirm
+     * @param req DTO containing the payment information
+     * @return ResponseEntity with the confirmed reservation DTO and HTTP status 200
+     */
     @Operation(summary = "Confirm a reservation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Reservation confirmed successfully"),
@@ -83,6 +111,12 @@ public class ReservationController {
         return ResponseEntity.ok(service.confirmReservation(id, req));
     }
 
+    /**
+     * Cancels an existing reservation
+     *
+     * @param id UUID of the reservation to cancel
+     * @return ResponseEntity with the cancelled reservation DTO and HTTP status 200
+     */
     @Operation(summary = "Cancel a reservation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Reservation cancelled successfully"),

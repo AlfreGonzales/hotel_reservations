@@ -20,6 +20,10 @@ import project.hotel_reservations.service.HotelService;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * REST controller for managing hotels
+ * Provides endpoints for creating, retrieving, updating, and deleting hotels
+ */
 @Tag(name = "Hotels")
 @RestController
 @RequestMapping("/hotels")
@@ -28,6 +32,12 @@ public class HotelController {
 
     private final HotelService service;
 
+    /**
+     * Creates a new hotel
+     *
+     * @param req DTO containing the hotel data to create
+     * @return ResponseEntity with the created hotel DTO and HTTP status 201
+     */
     @Operation(summary = "Create a hotel")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Hotel created successfully"),
@@ -43,6 +53,11 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(req));
     }
 
+    /**
+     * Retrieves a list of all registered hotels
+     *
+     * @return ResponseEntity with the list of hotel DTOs and HTTP status 200
+     */
     @Operation(summary = "Get a list of all hotels")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of hotels returned successfully")
@@ -53,6 +68,12 @@ public class HotelController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    /**
+     * Retrieves a hotel by its ID
+     *
+     * @param id UUID of the hotel to retrieve
+     * @return ResponseEntity with the found hotel DTO and HTTP status 200
+     */
     @Operation(summary = "Get a hotel by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Hotel found"),
@@ -68,6 +89,13 @@ public class HotelController {
         return ResponseEntity.ok(service.findById(id));
     }
 
+    /**
+     * Updates an existing hotel's information
+     *
+     * @param id  UUID of the hotel to update
+     * @param req DTO containing the updated hotel data
+     * @return ResponseEntity with the updated hotel DTO and HTTP status 200
+     */
     @Operation(summary = "Update a hotel")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Hotel updated successfully"),
@@ -88,6 +116,12 @@ public class HotelController {
         return ResponseEntity.ok(service.update(id, req));
     }
 
+    /**
+     * Deletes a hotel by its ID
+     *
+     * @param id UUID of the hotel to delete
+     * @return ResponseEntity with no content and HTTP status 204 if deletion was successful
+     */
     @Operation(summary = "Delete a hotel")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Hotel deleted successfully"),
