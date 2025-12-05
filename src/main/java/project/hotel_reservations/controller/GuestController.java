@@ -19,6 +19,10 @@ import project.hotel_reservations.service.GuestService;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * REST controller for managing guests
+ * Provides endpoints for creating, retrieving, updating, and deleting guests
+ */
 @Tag(name = "Guests")
 @RestController
 @RequestMapping("/guests")
@@ -27,6 +31,12 @@ public class GuestController {
 
     private final GuestService service;
 
+    /**
+     * Creates a new guest
+     *
+     * @param req DTO containing the guest data to create
+     * @return ResponseEntity with the created guest DTO and HTTP status 201
+     */
     @Operation(summary = "Create a guest")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Guest created successfully"),
@@ -41,6 +51,11 @@ public class GuestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(req));
     }
 
+    /**
+     * Retrieves a list of all registered guests
+     *
+     * @return ResponseEntity with the list of guest DTOs and HTTP status 200
+     */
     @Operation(summary = "Get a list of all guests")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of guests returned successfully")
@@ -50,6 +65,12 @@ public class GuestController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    /**
+     * Retrieves a guest by its ID
+     *
+     * @param id UUID of the guest to retrieve
+     * @return ResponseEntity with the found guest DTO and HTTP status 200
+     */
     @Operation(summary = "Get a guest by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Guest found"),
@@ -64,6 +85,13 @@ public class GuestController {
         return ResponseEntity.ok(service.findById(id));
     }
 
+    /**
+     * Updates an existing guest's information
+     *
+     * @param id  UUID of the guest to update
+     * @param req DTO containing the updated guest data
+     * @return ResponseEntity with the updated guest DTO and HTTP status 200
+     */
     @Operation(summary = "Update a guest")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Guest updated successfully"),
@@ -83,6 +111,12 @@ public class GuestController {
         return ResponseEntity.ok(service.update(id, req));
     }
 
+    /**
+     * Deletes a guest by its ID
+     *
+     * @param id UUID of the guest to delete
+     * @return ResponseEntity with no content and HTTP status 204 if deletion was successful
+     */
     @Operation(summary = "Delete a guest")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Guest deleted successfully"),
