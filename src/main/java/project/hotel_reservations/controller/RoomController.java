@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import project.hotel_reservations.dto.room.RoomCreateDTO;
 import project.hotel_reservations.dto.room.RoomResponseDTO;
@@ -46,6 +47,7 @@ public class RoomController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'HOTEL_ADMIN')")
     @PostMapping
     public ResponseEntity<RoomResponseDTO> create(@Valid @RequestBody RoomCreateDTO req) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(req));
@@ -60,6 +62,7 @@ public class RoomController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of rooms returned successfully")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<RoomResponseDTO>> findAll() {
         return ResponseEntity.ok(service.findAll());
@@ -80,6 +83,7 @@ public class RoomController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST', 'HOTEL_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<RoomResponseDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));
@@ -106,6 +110,7 @@ public class RoomController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'HOTEL_ADMIN')")
     @PatchMapping("/{id}")
     public ResponseEntity<RoomResponseDTO> update(@PathVariable UUID id, @Valid @RequestBody RoomUpdateDTO req) {
         return ResponseEntity.ok(service.update(id, req));
@@ -121,6 +126,7 @@ public class RoomController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Room deleted successfully"),
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'HOTEL_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.softDelete(id);
@@ -136,6 +142,7 @@ public class RoomController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of rooms returned successfully")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/deleted")
     public ResponseEntity<List<RoomResponseDTO>> findAllDeleted() {
         return ResponseEntity.ok(service.findAllDeleted());
@@ -147,6 +154,7 @@ public class RoomController {
      * @return ResponseEntity with the list of room DTOs and HTTP status 200
      */
     @Operation(summary = "Get a list of all rooms of a specific hotel")
+    @PreAuthorize("hasAnyRole('ADMIN', 'HOTEL_ADMIN')")
     @GetMapping("/hotels/{hotelId}")
     public ResponseEntity<List<RoomResponseDTO>> findByHotelId(@PathVariable UUID hotelId) {
         return ResponseEntity.ok(service.findByHotelId(hotelId));
@@ -158,6 +166,7 @@ public class RoomController {
      * @return ResponseEntity with the list of room DTOs and HTTP status 200
      */
     @Operation(summary = "Get a list of all the available rooms in a hotel")
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST', 'HOTEL_ADMIN')")
     @GetMapping("/hotels/{hotelId}/available")
     public ResponseEntity<List<RoomResponseDTO>> findAvailableRooms(@PathVariable UUID hotelId) {
         return ResponseEntity.ok(service.findAvailableRooms(hotelId));

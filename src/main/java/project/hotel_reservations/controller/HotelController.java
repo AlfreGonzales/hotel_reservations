@@ -63,7 +63,7 @@ public class HotelController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of hotels returned successfully")
     })
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST')")
     @GetMapping
     public ResponseEntity<List<HotelResponseDTO>> findAll() {
         return ResponseEntity.ok(service.findAll());
@@ -84,7 +84,7 @@ public class HotelController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
-    @PreAuthorize("hasAnyRole('ADMIN', 'HOTEL_ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST', 'HOTEL_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<HotelResponseDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));
@@ -141,6 +141,7 @@ public class HotelController {
      * @return ResponseEntity with the total earnings content and HTTP status 200
      */
     @Operation(summary = "Total earnings")
+    @PreAuthorize("hasAnyRole('ADMIN', 'HOTEL_ADMIN')")
     @GetMapping("/{id}/total-earnings")
     public ResponseEntity<BigDecimal> getTotalEarnings(@PathVariable UUID id) {
         BigDecimal totalEarnings = service.getTotalEarningsByHotel(id);

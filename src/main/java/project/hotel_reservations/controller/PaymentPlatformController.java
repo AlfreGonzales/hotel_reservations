@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import project.hotel_reservations.dto.payment_platform.PaymentPlatformCreateDTO;
 import project.hotel_reservations.dto.payment_platform.PaymentPlatformResponseDTO;
@@ -46,6 +47,7 @@ public class PaymentPlatformController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PaymentPlatformResponseDTO> create(@Valid @RequestBody PaymentPlatformCreateDTO req) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(req));
@@ -60,6 +62,7 @@ public class PaymentPlatformController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of payment platforms returned successfully")
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST', 'HOTEL_ADMIN')")
     @GetMapping
     public ResponseEntity<List<PaymentPlatformResponseDTO>> findAll() {
         return ResponseEntity.ok(service.findAll());
@@ -80,6 +83,7 @@ public class PaymentPlatformController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST', 'HOTEL_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<PaymentPlatformResponseDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));
@@ -106,6 +110,7 @@ public class PaymentPlatformController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}")
     public ResponseEntity<PaymentPlatformResponseDTO> update(@PathVariable UUID id, @Valid @RequestBody PaymentPlatformUpdateDTO req) {
         return ResponseEntity.ok(service.update(id, req));
@@ -121,6 +126,7 @@ public class PaymentPlatformController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Payment platform deleted successfully"),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
