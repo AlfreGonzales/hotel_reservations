@@ -3,6 +3,7 @@ package project.hotel_reservations.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
+import project.hotel_reservations.model.HotelAdminShift;
 
 import java.util.UUID;
 
@@ -21,8 +22,7 @@ public record HotelAdminUpdateDTO(
         @Size(min = 1, message = "Position must not be empty")
         String position,
 
-        @Size(min = 1, message = "Shift must not be empty")
-        String shift,
+        HotelAdminShift shift,
 
         UUID hotelId
 ) {
