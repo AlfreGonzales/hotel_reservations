@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import project.hotel_reservations.dto.HotelAdminCreateDTO;
 import project.hotel_reservations.dto.HotelAdminResponseDTO;
 import project.hotel_reservations.dto.HotelAdminUpdateDTO;
+import project.hotel_reservations.security.JwtService;
 import project.hotel_reservations.service.HotelAdminService;
 
 import java.util.List;
@@ -27,7 +28,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-// TODO: remove @AutoConfigureMockMvc(addFilters = false)  and mock jwt
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(HotelAdminController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -35,6 +35,9 @@ public class HotelAdminControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private JwtService jwtService;
 
     @MockitoBean
     private HotelAdminService service;

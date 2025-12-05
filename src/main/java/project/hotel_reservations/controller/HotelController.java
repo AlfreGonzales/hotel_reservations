@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import project.hotel_reservations.dto.HotelCreateDTO;
 import project.hotel_reservations.dto.HotelResponseDTO;
@@ -36,6 +37,7 @@ public class HotelController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<HotelResponseDTO> create(@Valid @RequestBody HotelCreateDTO req) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(req));
@@ -45,6 +47,7 @@ public class HotelController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of hotels returned successfully")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<HotelResponseDTO>> findAll() {
         return ResponseEntity.ok(service.findAll());
@@ -59,6 +62,7 @@ public class HotelController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'HOTEL_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<HotelResponseDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));
@@ -78,6 +82,7 @@ public class HotelController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'HOTEL_ADMIN')")
     @PatchMapping("/{id}")
     public ResponseEntity<HotelResponseDTO> update(@PathVariable UUID id, @Valid @RequestBody HotelUpdateDTO req) {
         return ResponseEntity.ok(service.update(id, req));
@@ -87,6 +92,7 @@ public class HotelController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Hotel deleted successfully"),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);

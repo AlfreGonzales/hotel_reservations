@@ -37,6 +37,7 @@ public class GuestController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST')")
     @PostMapping
     public ResponseEntity<GuestResponseDTO> create(@Valid @RequestBody GuestCreateDTO req) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(req));
@@ -46,8 +47,8 @@ public class GuestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of guests returned successfully")
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'HOTEL_ADMIN')")
     @GetMapping
-    @PreAuthorize("hasRole('guest')")
     public ResponseEntity<List<GuestResponseDTO>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
@@ -61,6 +62,7 @@ public class GuestController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST')")
     @GetMapping("/{id}")
     public ResponseEntity<GuestResponseDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));
@@ -80,6 +82,7 @@ public class GuestController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST')")
     @PatchMapping("/{id}")
     public ResponseEntity<GuestResponseDTO> update(@PathVariable UUID id, @Valid @RequestBody GuestUpdateDTO req) {
         return ResponseEntity.ok(service.update(id, req));
@@ -89,6 +92,7 @@ public class GuestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Guest deleted successfully"),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
