@@ -93,6 +93,10 @@ public class HotelServiceImpl implements HotelService {
     @Override
     @Transactional
     public void delete(UUID id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("Hotel not found");
+        }
+
         repository.deleteById(id);
     }
 }
