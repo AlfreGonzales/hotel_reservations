@@ -2,7 +2,9 @@ package project.hotel_reservations.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import project.hotel_reservations.model.HotelAdminShift;
 
 @Builder
 public record HotelAdminCreateDTO(
@@ -19,7 +21,7 @@ public record HotelAdminCreateDTO(
         @NotBlank(message = "Position must not be empty")
         String position,
 
-        @NotBlank(message = "Shift must not be empty")
-        String shift
+        @NotNull(message = "Shift must not be empty")
+        HotelAdminShift shift
 ) {
 }

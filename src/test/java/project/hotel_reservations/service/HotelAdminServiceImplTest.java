@@ -14,6 +14,7 @@ import project.hotel_reservations.dto.HotelAdminResponseDTO;
 import project.hotel_reservations.dto.HotelAdminUpdateDTO;
 import project.hotel_reservations.mapper.HotelAdminMapper;
 import project.hotel_reservations.model.HotelAdmin;
+import project.hotel_reservations.model.HotelAdminShift;
 import project.hotel_reservations.repository.HotelAdminRepository;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class HotelAdminServiceImplTest {
                 .name("Usuario")
                 .email("usuario@gmail.com")
                 .position("Gerente")
-                .shift("mañana")
+                .shift(HotelAdminShift.MORNING)
                 .build();
     }
 
@@ -67,7 +68,7 @@ public class HotelAdminServiceImplTest {
                 .name("Juan")
                 .email("juan@gmail.com")
                 .position("Supervisor")
-                .shift("tarde")
+                .shift(HotelAdminShift.AFTERNOON)
                 .build();
 
         HotelAdminResponseDTO dto = HotelAdminResponseDTO.builder()
@@ -76,7 +77,7 @@ public class HotelAdminServiceImplTest {
                 .name("Juan")
                 .email("juan@gmail.com")
                 .position("Supervisor")
-                .shift("tarde")
+                .shift(HotelAdminShift.AFTERNOON)
                 .build();
 
         when(repository.save(any(HotelAdmin.class))).thenReturn(hotelAdmin);
@@ -137,7 +138,7 @@ public class HotelAdminServiceImplTest {
                 .name("Nuevo Nombre")
                 .email("nuevo@gmail.com")
                 .position("Director")
-                .shift("noche")
+                .shift(HotelAdminShift.NIGHT)
                 .build();
 
         HotelAdmin updated = HotelAdmin.builder()
@@ -146,7 +147,7 @@ public class HotelAdminServiceImplTest {
                 .name("Nuevo Nombre")
                 .email("nuevo@gmail.com")
                 .position("Director")
-                .shift("noche")
+                .shift(HotelAdminShift.NIGHT)
                 .build();
 
         HotelAdminResponseDTO dto = HotelAdminResponseDTO.builder()
@@ -155,7 +156,7 @@ public class HotelAdminServiceImplTest {
                 .name("Nuevo Nombre")
                 .email("nuevo@gmail.com")
                 .position("Director")
-                .shift("noche")
+                .shift(HotelAdminShift.NIGHT)
                 .build();
 
         when(repository.findById(id)).thenReturn(Optional.of(hotelAdmin));
@@ -177,7 +178,7 @@ public class HotelAdminServiceImplTest {
         HotelAdminResponseDTO result = service.update(id, req);
 
         assertEquals("Nuevo Nombre", result.name());
-        assertEquals("noche", result.shift());
+        assertEquals(HotelAdminShift.NIGHT, result.shift());
         verify(repository).save(hotelAdmin);
     }
 
@@ -194,6 +195,8 @@ public class HotelAdminServiceImplTest {
     @Test
     @DisplayName("Delete hotel admin successfully")
     void shouldDeleteHotelAdmin() {
+        when(repository.existsById(id)).thenReturn(true);
+
         doNothing().when(repository).deleteById(id);
 
         service.delete(id);
