@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import project.hotel_reservations.dto.payment_platform.PaymentPlatformCreateDTO;
 import project.hotel_reservations.dto.payment_platform.PaymentPlatformResponseDTO;
 import project.hotel_reservations.dto.payment_platform.PaymentPlatformUpdateDTO;
+import project.hotel_reservations.security.JwtService;
 import project.hotel_reservations.service.PaymentPlatformService;
 
 import java.util.List;
@@ -26,9 +28,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(PaymentPlatformController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class PaymentPlatformControllerTest {
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private JwtService jwtService;
 
     @MockitoBean
     private PaymentPlatformService service;

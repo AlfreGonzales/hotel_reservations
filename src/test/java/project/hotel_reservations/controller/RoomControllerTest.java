@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import project.hotel_reservations.dto.room.RoomCreateDTO;
 import project.hotel_reservations.dto.room.RoomResponseDTO;
 import project.hotel_reservations.dto.room.RoomUpdateDTO;
+import project.hotel_reservations.security.JwtService;
 import project.hotel_reservations.service.RoomService;
 
 import java.math.BigDecimal;
@@ -27,9 +29,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(RoomController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class RoomControllerTest {
     @Autowired
     private MockMvc mockMvc;
+
+    @MockitoBean
+    private JwtService jwtService;
 
     @MockitoBean
     private RoomService roomService;
