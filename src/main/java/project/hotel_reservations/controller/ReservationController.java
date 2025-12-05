@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import project.hotel_reservations.dto.reservation.PayReservationDTO;
 import project.hotel_reservations.dto.reservation.ReservationCreateDTO;
@@ -48,6 +49,7 @@ public class ReservationController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST')")
     @PostMapping
     public ResponseEntity<ReservationResponseDTO> create(@Valid @RequestBody ReservationCreateDTO req) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(req));
@@ -62,6 +64,7 @@ public class ReservationController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of reservations returned successfully")
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<ReservationResponseDTO>> findAll() {
         return ResponseEntity.ok(service.findAll());
@@ -82,6 +85,7 @@ public class ReservationController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST', 'HOTEL_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ReservationResponseDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));
@@ -108,6 +112,7 @@ public class ReservationController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST')")
     @PatchMapping("/{id}/confirm")
     public ResponseEntity<ReservationResponseDTO> confirmReservation(@PathVariable UUID id, @Valid @RequestBody PayReservationDTO req) {
         return ResponseEntity.ok(service.confirmReservation(id, req));
@@ -128,6 +133,7 @@ public class ReservationController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST')")
     @PatchMapping("/{id}/cancel")
     public ResponseEntity<ReservationResponseDTO> cancelReservation(@PathVariable UUID id) {
         return ResponseEntity.ok(service.cancelReservation(id));
@@ -139,6 +145,7 @@ public class ReservationController {
      * @return ResponseEntity with the list of reservation DTOs and HTTP status 200
      */
     @Operation(summary = "Get a list of all reservations by rooms")
+    @PreAuthorize("hasAnyRole('ADMIN', 'HOTEL_ADMIN')")
     @GetMapping("/rooms/{roomId}")
     public ResponseEntity<List<ReservationResponseDTO>> findReservationsByRoom(@PathVariable UUID roomId) {
         return ResponseEntity.ok(service.findReservationsByRoom(roomId));
@@ -150,6 +157,7 @@ public class ReservationController {
      * @return ResponseEntity with the list of reservation DTOs and HTTP status 200
      */
     @Operation(summary = "Get a list of all reservations grouped by payment method")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/group-method")
     public ResponseEntity<Map<ReservationStatus, List<ReservationResponseDTO>>> getReservationsGroupedByPaymentMethod() {
         return ResponseEntity.ok(service.getReservationsGroupedByPaymentMethod());

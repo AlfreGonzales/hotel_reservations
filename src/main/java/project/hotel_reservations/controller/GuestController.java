@@ -83,7 +83,7 @@ public class GuestController {
                     content = @Content(schema = @Schema(hidden = true))
             )
     })
-    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'GUEST', 'HOTEL_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<GuestResponseDTO> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));
